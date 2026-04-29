@@ -138,3 +138,22 @@ Este análisis permite:
 - Identificar variables altamente relacionadas
 - Detectar posibles problemas de multicolinealidad
 - Comprender mejor la estructura de los datos antes del modelado
+
+# Especificaciones técnicas del equipo
+El entrenamiento de los modelos se realizó en un portátil HP Victus 15-fb3019la, cuyas especificaciones permiten ejecutar tareas de cómputo intensivo de manera eficiente.
+
+## Características principales
+Procesador (CPU):
+- AMD Ryzen 5 5600H (6 núcleos / 12 hilos, hasta 4.2 GHz)
+Tarjeta gráfica (GPU):
+- NVIDIA GeForce RTX 3050 (6 GB GDDR6 dedicada)
+Memoria RAM:
+- 16 GB DDR4 
+Almacenamiento:
+- SSD NVMe de 512 GB
+Pantalla:
+- 15.6" Full HD (1920 × 1080)
+Sistema operativo:
+- Windows 11 y Linux
+Arquitectura:
+- 64 bits
