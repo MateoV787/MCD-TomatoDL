@@ -1,12 +1,13 @@
 # A multivariate correlation approach for detection and classification of leaf diseases in greenhouse tomato crops using deep learning and machine learning models
 Este estudio implementa un modelo de red neuronal para la detección y clasificación de enfermedades en hojas de tomate, utilizando imágenes etiquetadas y técnicas de aprendizaje profundo.
 
-<img width="1400" height="1000" alt="Figura 3" src="https://github.com/user-attachments/assets/e71e2473-00f1-42ef-a8f1-bf4c48cf3804" />
+<img width="1400" height="1000" alt="Figura 3" src="https://github.com/user-attachments/assets/a10a8c30-553e-4ceb-819a-17c71c03f267" />
+
 
 # Matriz de confusion
 La matriz de confusión permite evaluar el desempeño del modelo en cada una de las clases, mostrando las predicciones correctas y los errores de clasificación.
 
-<img width="1200" height="1000" alt="Figura 7" src="https://github.com/user-attachments/assets/1fe5c55d-3815-48d1-96a7-e2207e6ee432" />
+<img width="1200" height="1000" alt="Figura 7" src="https://github.com/user-attachments/assets/0ed893c6-6f2b-4dd4-b338-e860bbce5d86" />
 
 Se observa un alto número de predicciones correctas en la diagonal principal.
 Las clases con mejor desempeño incluyen:
@@ -17,7 +18,8 @@ Los errores son mínimos y se presentan principalmente entre enfermedades con ca
  # Precision del Modelo
  Evolución de la precisión durante el entrenamiento y validación:
 
-<img width="9648" height="6840" alt="Figure_9a" src="https://github.com/user-attachments/assets/796faada-e5a9-4b50-8c4c-8fc9fbafe8b1" />
+<img width="9648" height="6840" alt="Figure_9a" src="https://github.com/user-attachments/assets/a1886d77-e090-47c6-b8b1-0647b7a91813" />
+
 
 La precisión alcanza valores cercanos a 99%.
 Las curvas de entrenamiento y validación son muy cercanas, lo que indica:
@@ -26,7 +28,8 @@ Las curvas de entrenamiento y validación son muy cercanas, lo que indica:
 
 # Funcion de perdida
 
-<img width="6432" height="4560" alt="Figure_9b" src="https://github.com/user-attachments/assets/352fa1f1-2fa2-449c-9c81-e87e87c32a4b" />
+<img width="6432" height="4560" alt="Figure_9b" src="https://github.com/user-attachments/assets/669b8ca4-772c-47c8-a738-8d5d530beb4f" />
+
 
 La pérdida disminuye rápidamente en las primeras épocas.
 Se estabiliza en valores cercanos a 0, indicando:
@@ -89,7 +92,7 @@ Este estudio implementa un modelo de Random Forest para predecir el estado del c
 
 # Matriz de confusión
 
-<img width="700" height="600" alt="Figure 10" src="https://github.com/user-attachments/assets/4ea31c8a-191e-42ed-ac31-7a017d4de12a" />
+<img width="700" height="600" alt="Figure 10" src="https://github.com/user-attachments/assets/ba96f979-2c42-41ce-9f70-45a08d561bf6" />
 
 La matriz de confusión permite visualizar el desempeño del modelo comparando las predicciones frente a los valores reales.
 
@@ -101,7 +104,7 @@ Esto permite identificar en qué clases el modelo tiene mayor precisión y en cu
 
 # Reporte de clasificación
 
-<img width="927" height="232" alt="Screenshot 2026-04-29 101106" src="https://github.com/user-attachments/assets/628d7afc-8f66-4387-bcf2-a4ee33d91cf4" />
+<img width="927" height="232" alt="Screenshot 2026-04-29 101106" src="https://github.com/user-attachments/assets/86367c1e-aa80-4b97-a341-77d1ad4ad644" />
 
 El reporte de clasificación resume métricas clave del modelo:
 - Precisión (Precision): qué tan confiables son las predicciones positivas
@@ -112,7 +115,7 @@ El reporte de clasificación resume métricas clave del modelo:
 Este reporte permite evaluar el rendimiento del modelo de manera detallada para cada clase.
 # Importancia de variables (Coeficiente de Gini)
 
-<img width="989" height="490" alt="Figura 11" src="https://github.com/user-attachments/assets/4bec2c11-7779-4e71-be13-8e9948a4806a" />
+<img width="989" height="490" alt="Figura 11" src="https://github.com/user-attachments/assets/219110dd-0aa6-4035-a9f2-afac50ecaa9d" />
 
 La importancia de variables se calcula utilizando el coeficiente de Gini, el cual mide cuánto contribuye cada variable a la reducción de la impureza en los árboles del modelo.
 
@@ -122,7 +125,7 @@ La importancia de variables se calcula utilizando el coeficiente de Gini, el cua
 
 # Matriz de correlación (Variables edáficas y ambientales)
 
-<img width="935" height="790" alt="Correlacion" src="https://github.com/user-attachments/assets/2acecf03-5ca5-4200-8c3a-1765ac7ed462" />
+<img width="935" height="790" alt="Correlacion" src="https://github.com/user-attachments/assets/1c511545-f7b4-4d1e-aef6-0a237e992afa" />
 
 La matriz de correlación muestra el grado de relación lineal entre las variables del dataset, utilizando el coeficiente de correlación de Pearson.
 
