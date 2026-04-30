@@ -1,42 +1,42 @@
 """
 =====================================================================
-FINE-TUNING PARCIAL DE EfficientNetB0 (MODELO DE 11 CLASES)
+PARTIAL FINE-TUNING OF EfficientNetB0 (11-CLASS MODEL)
 =====================================================================
 
-Autor: Mateo Valencia
-Ubicación: Universidad del Quindío, Armenia - Colombia
+Author: Mateo Valencia
+Location: Universidad del Quindío, Armenia - Colombia
 
-DESCRIPCIÓN:
-Este script realiza fine-tuning sobre un modelo preentrenado basado en
-EfficientNetB0 que originalmente clasifica 11 clases.
+DESCRIPTION:
+This script performs fine-tuning on a pretrained model based on
+EfficientNetB0 that originally classifies 11 classes.
 
-OBJETIVO:
-Refinar el desempeño del modelo en 3 clases específicas:
+OBJECTIVE:
+Refine the model performance on 3 specific classes:
 - healthy
 - Early_blight
 - Late_blight
 
-SIN:
-- Modificar la arquitectura
-- Cambiar la capa de salida (sigue siendo de 11 clases)
-- Aplicar data augmentation
+WITHOUT:
+- Modifying the architecture
+- Changing the output layer (it remains 11 classes)
+- Applying data augmentation
 
-ESTRATEGIA:
-- Se entrena SOLO con imágenes de 3 clases
-- Se congelan la mayoría de capas
-- Se ajustan capas finales con learning rate bajo
-- Se minimiza el riesgo de "catastrophic forgetting"
+STRATEGY:
+- Training ONLY with images from 3 classes
+- Most layers are frozen
+- Final layers are adjusted with a low learning rate
+- Minimizing the risk of "catastrophic forgetting"
 
 """
 
 # =========================================================
-#IMPORTACIÓN DE LIBRERÍAS
+#IMPORT LIBRARIES
 # =========================================================
 import tensorflow as tf
 from tensorflow.keras.callbacks import ReduceLROnPlateau, EarlyStopping
 
 # =========================================================
-# CONFIGURACIÓN GENERAL
+# GENERAL CONFIGURATION
 # =========================================================
 IMG_SIZE = 224
 BATCH_SIZE = 32
@@ -49,7 +49,7 @@ MODEL_PATH = r"C:\Users\teori\OneDrive\Documentos\2_Personal\ProyectoPAI\tomato_
 OUTPUT_MODEL = r"C:\Users\teori\OneDrive\Documentos\2_Personal\ProyectoPAI\modelo_refinado.h5"
 
 # =========================================================
-# CARGA DEL DATASET
+# DATASET LOADING
 # =========================================================
 
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
@@ -65,7 +65,7 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
 )
 
 # =========================================================
-# PREPROCESAMIENTO
+#PREPROCESSING
 # =========================================================
 
 normalization = tf.keras.layers.Rescaling(1./255)
@@ -73,12 +73,12 @@ normalization = tf.keras.layers.Rescaling(1./255)
 train_ds = train_ds.map(lambda x, y: (normalization(x), y))
 val_ds = val_ds.map(lambda x, y: (normalization(x), y))
 
-# Mejora de rendimiento
+# Performance improvement
 train_ds = train_ds.prefetch(buffer_size=tf.data.AUTOTUNE)
 val_ds = val_ds.prefetch(buffer_size=tf.data.AUTOTUNE)
 
 # =========================================================
-# CARGA DEL MODELO PREENTRENADO
+#LOAD PRETRAINED MODEL
 # =========================================================
 
 
@@ -87,24 +87,24 @@ model = tf.keras.models.load_model(MODEL_PATH)
 model.summary()
 
 # =========================================================
-# FREEZING ESTRATÉGICO
+# STRATEGIC FREEZING
 # =========================================================
 
 
 """
-Se congelan la mayoría de capas para:
--Preservar conocimiento de las otras 8 clases
--Evitar sobreajuste
--Mantener estabilidad del modelo
+Most layers are frozen to:
+- Preserve knowledge of the other 8 classes
+- Avoid overfitting
+- Maintain model stability
 
-Solo se entrenan las capas finales
+Only the final layers are trained
 """
 
-for layer in model.layers[:-40]:  # Para evitar Catastrophic forgetting
+for layer in model.layers[:-40]:  # To avoid catastrophic forgetting
     layer.trainable = False
 
 # =========================================================
-# COMPILACIÓN
+# COMPILATION
 # =========================================================
 
 model.compile(
@@ -114,7 +114,7 @@ model.compile(
 )
 
 # =========================================================
-# CALLBACKS
+#CALLBACKS
 # =========================================================
 
 lr_scheduler = ReduceLROnPlateau(
@@ -133,7 +133,7 @@ early_stop = EarlyStopping(
 )
 
 # =========================================================
-# ENTRENAMIENTO
+#TRAINING
 # =========================================================
 
 history = model.fit(
@@ -144,7 +144,7 @@ history = model.fit(
 )
 
 # =========================================================
-# GUARDADO DEL MODELO
+# MODEL SAVING
 # =========================================================
 
 model.save(OUTPUT_MODEL)
