@@ -1,37 +1,36 @@
 """
 =====================================================================
-MODELO RANDOM FOREST PARA VARIABLES EDÁFICAS Y AMBIENTALES
+RANDOM FOREST MODEL FOR SOIL AND ENVIRONMENTAL VARIABLES
 =====================================================================
 
-Autor: Mateo Valencia
-Ubicación: Universidad del Quindío, Armenia - Colombia
+Author: Mateo Valencia
+Location: Universidad del Quindío, Armenia - Colombia
 
-DESCRIPCIÓN:
-Este script implementa un modelo de clasificación utilizando Random Forest
-para predecir el estado de un cultivo a partir de variables edáficas y
-ambientales.
+DESCRIPTION:
+This script implements a classification model using Random Forest
+to predict the state of a crop based on soil and environmental variables.
 
-VARIABLE OBJETIVO:
-- 'estado' (variable categórica)
+TARGET VARIABLE:
+- 'estado' (categorical variable)
 
-VARIABLES DE ENTRADA:
-- Propiedades del suelo: pH, Conductividad, N, P, K
-- Condiciones del suelo: Humedad y Temperatura
-- Condiciones ambientales: Humedad, Temperatura, Radiación
+INPUT VARIABLES:
+- Soil properties: pH, Conductivity, N, P, K
+- Soil conditions: Humidity and Temperature
+- Environmental conditions: Humidity, Temperature, Radiation
 
-FLUJO DEL SCRIPT:
-1. Carga y exploración de datos
-2. Preprocesamiento
-3. División de datos (train/test)
-4. Entrenamiento del modelo
-5. Evaluación del modelo
-6. Importancia de variables
-7. Análisis de correlación
+SCRIPT FLOW:
+1. Data loading and exploration
+2. Preprocessing
+3. Data splitting (train/test)
+4. Model training
+5. Model evaluation
+6. Feature importance
+7. Correlation analysis
 =====================================================================
 """
 
 # =========================
-# LIBRERÍAS
+# LIBRARIES
 # =========================
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -43,20 +42,20 @@ from sklearn.metrics import classification_report, confusion_matrix, accuracy_sc
 
 
 # =========================
-# CARGA DE DATOS
+# DATA LOADING
 # =========================
 ruta = r"C:\Users\teori\OneDrive\Documentos\2_Personal\ProyectoPAI\rf.csv"
 df = pd.read_csv(ruta, sep=",")
 
-print("\n=== PREVISUALIZACIÓN DEL DATASET ===")
+print("\n=== DATASET PREVIEW ===")
 print(df.head())
 
-print("\n=== VALORES NULOS ===")
+print("\n=== NULL VALUES ===")
 print(df.isnull().sum())
 
 
 # =========================
-# SELECCIÓN DE VARIABLES
+# VARIABLE SELECTION
 # =========================
 X = df[['pH', 'Conductividad', 'Nitrogeno', 'Fosforo', 'Potasio',
         'HumedadRelativaSuelo', 'TemperaturaSuelo',
@@ -66,7 +65,7 @@ y = df['estado']
 
 
 # =========================
-# DIVISIÓN DE DATOS
+# DATA SPLITTING
 # =========================
 X_train, X_test, y_train, y_test = train_test_split(
     X, y,
@@ -77,7 +76,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 
 # =========================
-# MODELO BASE
+# BASE MODEL
 # =========================
 modelo_base = RandomForestClassifier(
     n_estimators=200,
@@ -90,20 +89,19 @@ modelo_base.fit(X_train, y_train)
 
 
 # =========================
-# EVALUACIÓN MODELO BASE
+# BASE MODEL EVALUATION
 # =========================
 y_pred_base = modelo_base.predict(X_test)
 
-print("\n=== MODELO BASE ===")
-print("\nMatriz de confusión:\n", confusion_matrix(y_test, y_pred_base))
-print("\nReporte de clasificación:\n", classification_report(y_test, y_pred_base))
-print("\nPrecisión:", accuracy_score(y_test, y_pred_base))
-
+print("\n===BASE MODELE ===")
+print("\nConfusion matrix:\n", confusion_matrix(y_test, y_pred_base))
+print("\nClassification report:\n", classification_report(y_test, y_pred_base))
+print("\nAccuracy:", accuracy_score(y_test, y_pred_base))
 
 # =========================
-# VALIDACIÓN CRUZADA
+# CROSS-VALIDATION
 # =========================
-print("\n=== VALIDACIÓN CRUZADA (5-FOLD) ===")
+print("\n=== CROSS-VALIDATION (5-FOLD) ===")
 
 cv_scores = cross_val_score(
     modelo_base,
@@ -113,13 +111,13 @@ cv_scores = cross_val_score(
     scoring='accuracy'
 )
 
-print("Precisión por fold:", cv_scores)
-print("Promedio:", cv_scores.mean())
-print("Desviación estándar:", cv_scores.std())
+print("Accuracy per fold:", cv_scores)
+print("Mean:", cv_scores.mean())
+print("Standard deviation:", cv_scores.std())
 
 
 # =========================
-# GRID SEARCH (OPTIMIZACIÓN)
+# GRID SEARCH (OPTIMIZATION)
 # =========================
 print("\n=== GRID SEARCH ===")
 
@@ -140,37 +138,34 @@ grid_search = GridSearchCV(
 
 grid_search.fit(X_train, y_train)
 
-print("\nMejores parámetros encontrados:")
+print("\nBest parameters found:")
 print(grid_search.best_params_)
 
-# Modelo optimizado
+# Optimized model
 modelo_opt = grid_search.best_estimator_
 
-
 # =========================
-# EVALUACIÓN MODELO OPTIMIZADO
+# OPTIMIZED MODEL EVALUATION
 # =========================
 y_pred_opt = modelo_opt.predict(X_test)
 
-print("\n=== MODELO OPTIMIZADO ===")
-print("\nMatriz de confusión:\n", confusion_matrix(y_test, y_pred_opt))
-print("\nReporte de clasificación:\n", classification_report(y_test, y_pred_opt))
-print("\nPrecisión:", accuracy_score(y_test, y_pred_opt))
-
+print("\n=== OPTIMIZED MODEL ===")
+print("\nConfusion matrix:\n", confusion_matrix(y_test, y_pred_opt))
+print("\nClassification report:\n", classification_report(y_test, y_pred_opt))
+print("\nAccuracy:", accuracy_score(y_test, y_pred_opt))
 
 # =========================
-# COMPARACIÓN DE MODELOS
+# MODEL COMPARISON
 # =========================
 acc_base = accuracy_score(y_test, y_pred_base)
 acc_opt = accuracy_score(y_test, y_pred_opt)
 
-print("\n=== COMPARACIÓN ===")
+print("\n=== COMPARISON ===")
 print(f"Modelo Base: {acc_base:.4f}")
 print(f"Modelo Optimizado: {acc_opt:.4f}")
 
-
 # =========================
-# IMPORTANCIA DE VARIABLES
+# FEATURE IMPORTANCE
 # =========================
 nombres_simplificados = {
     'pH': 'pH',
@@ -205,19 +200,18 @@ for barra in barras:
     )
 
 plt.xticks(rotation=45)
-plt.ylabel('Importancia (%)')
+plt.ylabel('Importance (%)')
 plt.xlabel('Variables')
-plt.title('Importancia de Variables (Modelo Optimizado)')
+plt.title('Feature Importance (Optimized Model)')
 plt.tight_layout()
 plt.show()
 
 
 # =========================
-# MATRIZ DE CORRELACIÓN
+# CORRELATION MATRIX
 # =========================
 corr_matrix = X.corr(method='pearson')
-
-print("\n=== MATRIZ DE CORRELACIÓN ===")
+print("\n=== CORRELATION MATRIX ===")
 print(corr_matrix)
 
 plt.figure(figsize=(10, 8))
@@ -227,7 +221,7 @@ sns.heatmap(corr_matrix,
             fmt=".2f",
             linewidths=0.5)
 
-plt.title("Matriz de Correlación - Variables Edáficas y Ambientales")
+plt.title("Correlation Matrix - Soil and Environmental Variables")
 plt.xticks(rotation=45)
 plt.yticks(rotation=0)
 plt.tight_layout()
