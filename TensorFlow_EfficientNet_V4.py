@@ -1,16 +1,16 @@
 """
 ===========================================================
-PROYECTO: Clasificación de enfermedades en tomate
-MODELO: EfficientNetB0
-AUTOR: Mateo Valencia
-DESCRIPCIÓN:
-Este script carga imágenes desde carpetas, genera dataframes,
-entrena un modelo CNN usando EfficientNet y evalúa resultados.
+PROJECT: Tomato Disease Classification
+MODEL: EfficientNetB0
+AUTHOR: Mateo Valencia
+DESCRIPTION:
+This script loads images from folders, generates dataframes,
+trains a CNN model using EfficientNet, and evaluates results.
 ===========================================================
 """
 
 # =========================
-#IMPORTACIONES
+# IMPORTS
 # =========================
 import os
 import numpy as np
@@ -32,7 +32,7 @@ from tensorflow.keras.preprocessing import image
 import seaborn as sns
 
 # =========================
-# CONFIGURACIÓN
+# CONFIGURATION
 # =========================
 TRAIN_DIR = r"C:\Users\teori\OneDrive\Documentos\2_Personal\ProyectoPAI\Dataset\train"   
 VAL_DIR = r"C:\Users\teori\OneDrive\Documentos\2_Personal\ProyectoPAI\Dataset\valid"
@@ -41,15 +41,14 @@ IMG_SIZE = 256
 BATCH_SIZE = 32
 EPOCHS = 20
 NUM_CLASSES = 11
-
 # =========================
-# CREACIÓN DE DATAFRAMES
+# DATAFRAME CREATION
 # =========================
 def create_dataframe(path):
     """
-    Recorre carpetas y crea un DataFrame con:
-    - Ruta de imagen
-    - Etiqueta (clase)
+   Iterates through folders and creates a DataFrame with:
+    - Image path
+    - Label (class)
     """
     data = []
     for folder in os.listdir(path):
@@ -66,18 +65,18 @@ df = create_dataframe(TRAIN_PATH)
 val_df = create_dataframe(VAL_PATH)
 
 # =========================
-# ANÁLISIS EXPLORATORIO
+# EXPLORATORY ANALYSIS
 # =========================
 def plot_distribution(dataframe, title):
     dataframe['label'].value_counts().plot(kind='bar')
     plt.title(title)
     plt.show()
 
-plot_distribution(df, "Distribución - Train")
-plot_distribution(val_df, "Distribución - Validation")
+plot_distribution(df, "Distribution - Train")
+plot_distribution(val_df, "Distribution - Validation")
 
 # =========================
-# SPLIT TRAIN / TEST
+# TRAIN / TEST SPLIT
 # =========================
 X_train, X_test, y_train, y_test = train_test_split(
     df['filename'], df['label'], test_size=0.2, random_state=42
@@ -103,7 +102,7 @@ test_datagen = ImageDataGenerator(rescale=1./255)
 val_datagen  = ImageDataGenerator(rescale=1./255)
 
 # =========================
-# GENERADORES
+# GENERATORS
 # =========================
 train_generator = train_datagen.flow_from_dataframe(
     train_df, x_col='filename', y_col='label',
@@ -129,7 +128,7 @@ test_generator = test_datagen.flow_from_dataframe(
 )
 
 # =========================
-# VISUALIZACIÓN
+# VISUALIZATION
 # =========================
 def show_images(generator):
     images, labels = next(generator)
@@ -146,7 +145,7 @@ def show_images(generator):
 show_images(train_generator)
 
 # =========================
-# MODELO (TRANSFER LEARNING)
+# MODEL (TRANSFER LEARNING)
 # =========================
 base_model = EfficientNetB0(
     weights='imagenet',
@@ -172,16 +171,15 @@ model.compile(
 model.summary()
 
 # =========================
-# ENTRENAMIENTO
+# TRAINING
 # =========================
 history = model.fit(
     train_generator,
     validation_data=val_generator,
     epochs=EPOCHS
 )
-
 # =========================
-# EVALUACIÓN
+# EVALUATION
 # =========================
 train_loss, train_acc = model.evaluate(train_generator)
 test_loss, test_acc = model.evaluate(test_generator)
@@ -190,7 +188,7 @@ print(f"Train Accuracy: {train_acc:.2%}")
 print(f"Test Accuracy: {test_acc:.2%}")
 
 # =========================
-# MATRIZ DE CONFUSIÓN
+# CONFUSION MATRIX
 # =========================
 y_pred = model.predict(test_generator)
 y_pred_classes = np.argmax(y_pred, axis=1)
@@ -204,7 +202,7 @@ plt.title("Confusion Matrix")
 plt.show()
 
 # =========================
-# MÉTRICAS
+# METRICS
 # =========================
 precision = precision_score(true_classes, y_pred_classes, average='weighted')
 recall    = recall_score(true_classes, y_pred_classes, average='weighted')
@@ -215,12 +213,12 @@ print(f"Recall: {recall}")
 print(f"F1 Score: {f1}")
 
 # =========================
-# GUARDAR MODELO
+# SAVE MODEL
 # =========================
 model.save("tomato_model.h5")
 
 # =========================
-# PREDICCIÓN DE UNA IMAGEN
+# SINGLE IMAGE PREDICTION
 # =========================
 def predict_image(model, img_path, class_labels):
     img = image.load_img(img_path, target_size=(IMG_SIZE, IMG_SIZE))
@@ -237,4 +235,4 @@ def predict_image(model, img_path, class_labels):
 class_labels = list(train_generator.class_indices.keys())
 
 resultado = predict_image(model, "ejemplo.jpg", class_labels)
-print("Predicción:", resultado)
+print("Prediccion:", resultado)
