@@ -173,3 +173,51 @@ Operating System:
   
 Architecture:
 - 64-bits
+
+# Application hardware
+
+## Main Features
+
+Processor (CPU):
+
+- Broadcom BCM2712 Quad-Core ARM Cortex-A76 (4 cores, up to 2.4 GHz)
+
+
+Graphics Processor (GPU):
+
+- VideoCore VII GPU with OpenGL ES 3.1 and Vulkan 1.2 support
+
+
+RAM:
+
+- 8 GB LPDDR4X SDRAM 
+
+
+Storage:
+
+- High-speed microSD card and external SSD support via USB 3.0
+
+
+Connectivity:
+
+- Gigabit Ethernet
+- Dual-band Wi-Fi (2.4 GHz / 5 GHz)
+- Bluetooth 5.0 BLE
+
+
+Interfaces:
+
+- 40-pin GPIO header
+- USB 3.0 and USB 2.0 ports
+- CSI camera interface
+- DSI display interface
+
+
+Operating System:
+
+- Raspberry Pi OS (64-bit)
+
+
+Architecture:
+
+- 64-bit ARM Architecture
